@@ -12,6 +12,17 @@ app = Flask(__name__)
 # Initialize CORS
 CORS(app)
 
+# @app.route('/predict', methods=['POST'])
+# def predict():
+#     data = request.get_json()
+#     comment = data.get('comment', '')
+
+#     if not comment:
+#         return json.dumps({'error': 'No comment provided.'}), 400
+
+#     prediction = model.predict([comment])
+#     return json.dumps({'comment': comment, 'prediction': prediction[0]})
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
@@ -21,7 +32,11 @@ def predict():
         return json.dumps({'error': 'No comment provided.'}), 400
 
     prediction = model.predict([comment])
-    return json.dumps({'comment': comment, 'prediction': prediction[0]})
+
+    # Convert the prediction to a standard Python integer if it's an int64
+    prediction_value = int(prediction[0])  # Ensure it's a standard int
+
+    return json.dumps({'comment': comment, 'prediction': prediction_value})
 
 # Vercel serverless function handler
 def handler(req, res):
