@@ -23,6 +23,11 @@ CORS(app)
 #     prediction = model.predict([comment])
 #     return json.dumps({'comment': comment, 'prediction': prediction[0]})
 
+@app.route('/')
+def index():
+    return "Hello, World! use Predict/"
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     data = request.get_json()
