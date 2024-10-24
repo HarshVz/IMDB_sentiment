@@ -1,4 +1,10 @@
-Flask
 scikit-learn
 flask-cors
 gunicorn
+nltk
+numpy
+pandas
+matplotlib
+scikit-learn
+wordcloud
+flask
