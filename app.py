@@ -9,14 +9,18 @@ with open('sentiment_model.pkl', 'rb') as f:
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    # Get the comment from the request
-    data = request.json
+    data = request.get_json()
     comment = data.get('comment', '')
 
-    # Make a prediction
+    if not comment:
+        return json.dumps({'error': 'No comment provided.'}), 400
+
     prediction = model.predict([comment])
 
-    return jsonify({'comment': comment, 'prediction': prediction[0]})
+    # Convert the prediction to a standard Python integer if it's an int64
+    prediction_value = int(prediction[0])  # Ensure it's a standard int
+
+    return json.dumps({'comment': comment, 'prediction': prediction_value})
 
 if __name__ == '__main__':
     app.run(debug=True)
